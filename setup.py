@@ -1,14 +1,11 @@
 from setuptools import setup, find_packages
 
-with open("README.md", "r") as f:
+with open("README.md", "r", encoding="utf-8") as f:
     page_description = f.read()
-    
-with open("requirements.txt", encoding="utf-8") as f:
-    requirements = f.read().splitlines()
-    
+
 setup(
     name="validador_docs",
-    version="1.0.0",
+    version="0.0.1",
     author='edmaker89',
     author_email="edmaker@gmail.com",
     description="Validators Brasilian documents",
@@ -16,6 +13,8 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/edmaker89/validator_documents_package",
     packages=find_packages(),
-    install_requires=requirements,
-    python_requires=">=3.12"
+    install_requires=[],  # Lista de dependências se necessário, aqui você pode remover o requirements.txt
+    python_requires=">=3.12",
+    setup_requires=['pytest-runner'],  # Opcional, se for usar pytest para testar
+    tests_require=['pytest'],  # Se você for usar pytest
 )
