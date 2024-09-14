@@ -8,10 +8,10 @@ with open("requirements.txt") as f:
     
 setup(
     name="validador_docs",
-    version="0.0.1",
+    version="1.0.0",
     author='edmaker89',
     author_email="edmaker@gmail.com",
-    description="Description package",
+    description="Validators Brasilian documents",
     long_description=page_description,
     long_description_content_type="text/markdown",
     url="https://github.com/edmaker89/validator_documents_package",
