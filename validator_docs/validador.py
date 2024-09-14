@@ -1,5 +1,10 @@
 import re
 
+RANGE_CPF_DV_1 = range(10, 1, -1)
+RANGE_CPF_DV_2 = range(11, 2, -1)
+RANGE_CNPJ_DV_1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+RANGE_CNPJ_DV_2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+
 def normalizar_dado(dado: str | int):
     """
     Remove todos os caracteres que não são dígitos e verifica se é um número válido
@@ -26,14 +31,33 @@ def identificar_documento(dado: str | int):
         raise ValueError("Dado inválido: Não foi possivel identificar o tipo de dado. CPF: 11 digitos, CNPJ 14 digitos")
     
 def calcular_dv_cpf(cpf, peso):
+    """
+    Calcula o digito verificador do CPF
+    
+    parametros: CPF - str | int
+                peso: digito verificador 1: range(10, 1, -1)
+                peso: digito verificador 2: range(11, 2, -1)
+                
+    retorna -> digito verificador
+    """
     soma = sum(int(cpf[i]) * peso for i, peso in enumerate(peso))
     resto = (soma * 10) % 11
     return 0 if resto == 10 else resto
 
 def calcular_dv_cnpj(cnpj, pesos):
-        soma = sum(int(cnpj[i]) * pesos[i % len(pesos)] for i in range(len(pesos)))
-        resto = soma % 11
-        return 0 if resto < 2 else 11 - resto
+    """ 
+    Calcula o dígito verificador do CNPJ.  
+    
+    parâmetros: CNPJ - str | int  
+                pesos: lista de pesos a serem utilizados no cálculo do dígito verificador,   
+                       onde a lista deve ter um comprimento adequado dependendo da posição   
+                       do dígito verificador sendo calculado.  
+    
+    retorna -> dígito verificador  
+    """
+    soma = sum(int(cnpj[i]) * pesos[i % len(pesos)] for i in range(len(pesos)))
+    resto = soma % 11
+    return 0 if resto < 2 else 11 - resto
 
 def validar_cpf(cpf: str) -> bool:
     """
@@ -43,8 +67,8 @@ def validar_cpf(cpf: str) -> bool:
     if len(cpf) != 11:
         return False
     
-    primeiro_dv = calcular_dv_cpf(cpf, range(10, 1, -1))
-    segundo_dv = calcular_dv_cpf(cpf, range(11, 2, -1))
+    primeiro_dv = calcular_dv_cpf(cpf, RANGE_CPF_DV_1)
+    segundo_dv = calcular_dv_cpf(cpf, RANGE_CPF_DV_2)
     
     return cpf[-2:] == f'{primeiro_dv}{segundo_dv}'
 
@@ -57,8 +81,8 @@ def validar_cnpj(cnpj: str) -> bool:
     if len(cnpj) != 14:
         return False
 
-    primeiro_dv = calcular_dv_cnpj(cnpj[:-2], [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
-    segundo_dv = calcular_dv_cnpj(cnpj[:-1], [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2])
+    primeiro_dv = calcular_dv_cnpj(cnpj[:-2], RANGE_CNPJ_DV_1)
+    segundo_dv = calcular_dv_cnpj(cnpj[:-1], RANGE_CNPJ_DV_2)
 
     return cnpj[-2:] == f'{primeiro_dv}{segundo_dv}'
 
@@ -77,21 +101,21 @@ def formatar_cnpj(cnpj):
 def validar_doc(dado, formatado = False):
     """
     Valida se o dado informado é um CPF ou CNPJ e verifica sua validade.
-    Retorna o CPF/CNPJ formatado se for válido, ou uma exceção se for inválido.
+    Retorna o CPF/CNPJ formatado se for válido em formato String, ou uma exceção se for inválido.
     """
     tipo = identificar_documento(dado)
     dado_validado = ''
     
     if tipo == 'CPF':
         if validar_cpf(dado):
-            dado_validado = dado
+            dado_validado = normalizar_dado(dado)
             if formatado:
                 dado_validado = formatar_cpf(dado_validado)
         else:
             raise ValueError("CPF inválido.")
     elif tipo == 'CNPJ':
         if validar_cnpj(dado):
-            dado_validado = dado
+            dado_validado = normalizar_dado(dado)
             if formatado:
                 dado_validado = formatar_cnpj(dado_validado)
         else:
