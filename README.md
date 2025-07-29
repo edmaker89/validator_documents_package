@@ -1,3 +1,5 @@
+<img width="1237" height="273" alt="image" src="https://github.com/user-attachments/assets/b3db5aa6-4b27-4a6a-88ca-d8d210503345" />
+
 # Validator Docs
 A Python package to validate and format Brazilian CPF and CNPJ documents.
 
