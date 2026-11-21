@@ -24,7 +24,7 @@ Transformação do pacote original `validator_docs` (apenas CPF/CNPJ, sem tipage
 
 ---
 
-## Estado Atual (v0.1.0)
+## Estado Atual (v0.1.1)
 
 | Aspecto | Detalhes |
 |---------|----------|
@@ -33,7 +33,7 @@ Transformação do pacote original `validator_docs` (apenas CPF/CNPJ, sem tipage
 | Documentos | **7**: CPF, CNPJ, PIS, Título Eleitoral, CNH, RENAVAM, Placa |
 | Tipagem | **Pydantic v2** — 7 modelos (`CPF`, `CNPJ`, `PIS`, `TituloEleitoral`, `CNH`, `Renavam`, `Placa`) + API funcional |
 | Build | `pyproject.toml` + `hatchling` (PEP 621) |
-| Testes | 3 arquivos, **138 testes**, fixtures validadas contra `validate-docbr` (referência), cobertura **95.6%** |
+| Testes | 3 arquivos, **160 testes**, fixtures validadas contra `validate-docbr` (referência), cobertura **92.6%** |
 | README | Badges, exemplos, tabela de decisões |
 | Licença | MIT — arquivo `LICENSE` presente |
 | Qualidade | `ruff` formatado, sem warnings |

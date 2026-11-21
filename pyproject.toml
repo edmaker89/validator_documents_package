@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "validator-documents"
-version = "0.1.0"
+version = "0.1.1"
 description = "Validação e formatação de documentos brasileiros (CPF, CNPJ, PIS, Título Eleitoral, CNH, RENAVAM, Placa)."
 readme = "README.md"
 license = {text = "MIT"}
