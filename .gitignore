@@ -173,4 +173,8 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+# Graphify (knowledge graph output — local only, never committed)
+graphify-out/
+raw/
+
 # End of https://www.toptal.com/developers/gitignore/api/python
