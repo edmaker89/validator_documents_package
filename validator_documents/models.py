@@ -56,11 +56,17 @@ class CPF(_DocumentoBase):
 
 
 class CNPJ(_DocumentoBase):
-    """CNPJ — Cadastro Nacional da Pessoa Jurídica."""
+    """CNPJ — Cadastro Nacional da Pessoa Jurídica (numérico e alfanumérico RFB)."""
 
     _validar_fn = staticmethod(cnpj.validar_cnpj)
     _formatar_fn = staticmethod(cnpj.formatar_cnpj)
     _gerar_fn = staticmethod(cnpj.gerar_cnpj)
+
+    @field_validator("valor", mode="before")
+    @classmethod
+    def _normalizar(cls, v: str | int) -> str:
+        """Normaliza preservando letras A-Z (CNPJ alfanumérico da RFB)."""
+        return cnpj.normalizar_cnpj(v)
 
 
 class PIS(_DocumentoBase):

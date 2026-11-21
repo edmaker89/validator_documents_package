@@ -61,6 +61,26 @@ CNPJ_INVALIDOS = [
     "123456789",
 ]
 
+# Fixtures CNPJ Alfanumérico (RFB — IN RFB nº 2.229/2024)
+CNPJ_ALFANUMERICO_VALIDOS = [
+    ("12ABC34501DE35", "12.ABC.345/01DE-35"),  # Exemplo oficial RFB
+    ("95CR716532P858", "95.CR7.165/32P8-58"),
+    ("KOZI2924181297", "KO.ZI2.924/1812-97"),
+    ("74ZH760592C404", "74.ZH7.605/92C4-04"),
+    ("16T31004654478", "16.T31.004/6544-78"),
+    ("016Q57LG76O662", "01.6Q5.7LG/76O6-62"),
+]
+CNPJ_ALFANUMERICO_INVALIDOS = [
+    "TE9A7033420235",  # DV errado
+    "7L8U648F736183",  # DV errado
+    "D62T278O686R51",  # DV errado
+    "67556WJ9S29669",  # DV errado
+    "H6C1653V3A2978",  # DV errado
+    "AAAAAAAAAAAAAA",  # todos caracteres iguais
+    "12ABC34501DE",  # tamanho errado (12)
+    "12ABC34501DEA5",  # DV não numérico (letra)
+]
+
 # Fixtures PIS (5 válidos)
 PIS_VALIDOS = [
     ("43520735467", "435.20735.46-7"),
@@ -154,6 +174,34 @@ class TestCPF:
         assert formatar_cpf(raw) == formatado
         if _sem_zeros_esquerda(raw):
             assert formatar_cpf(int(raw)) == formatado
+
+
+class TestCNPJAlfanumerico:
+    """Testes para CNPJ alfanumérico (RFB IN 2.229/2024)."""
+
+    @pytest.mark.parametrize("raw,formatado", CNPJ_ALFANUMERICO_VALIDOS)
+    def test_validar(self, raw, formatado):
+        assert validar_cnpj(raw) is True
+        assert validar_cnpj(formatado) is True
+
+    @pytest.mark.parametrize("invalid", CNPJ_ALFANUMERICO_INVALIDOS)
+    def test_invalidar(self, invalid):
+        assert validar_cnpj(invalid) is False
+
+    @pytest.mark.parametrize("raw,formatado", CNPJ_ALFANUMERICO_VALIDOS)
+    def test_formatar(self, raw, formatado):
+        assert formatar_cnpj(raw) == formatado
+
+    def test_modelo_pydantic(self):
+        cnpj = CNPJ(valor="12ABC34501DE35")
+        assert cnpj.valor == "12ABC34501DE35"
+        assert cnpj.formatado == "12.ABC.345/01DE-35"
+
+    def test_identificar_documento(self):
+        from validator_documents import identificar_documento
+
+        assert identificar_documento("12ABC34501DE35") == "CNPJ"
+        assert identificar_documento("12.ABC.345/01DE-35") == "CNPJ"
 
 
 class TestCNPJ:
