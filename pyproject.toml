@@ -59,6 +59,8 @@ testpaths = ["tests"]
 [tool.coverage.run]
 source = ["validator_documents"]
 omit = ["tests/*", "validator_documents/__init__.py"]
+relative_files = true
+branch = true
 
 [tool.coverage.report]
 fail_under = 90
