@@ -3,10 +3,8 @@
 Cada modelo valida o documento na construção e expõe ``.valor`` (somente dígitos)
 e ``.formatado`` (com máscara padrão).
 """
-
-from typing_extensions import Self
-
 from pydantic import BaseModel, ConfigDict, field_validator
+from typing_extensions import Self
 
 from . import cnh, cnpj, cpf, pis, placa, renavam, titulo_eleitoral
 from ._utils import normalizar
