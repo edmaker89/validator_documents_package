@@ -6,7 +6,6 @@ import re
 from typing import Literal
 
 from . import cnh, cnpj, cpf, pis, placa, renavam, titulo_eleitoral
-from ._utils import normalizar
 from .exceptions import DocumentoNaoIdentificado
 from .placa import _PLACA_ANTIGA, _PLACA_MERCOSUL
 
@@ -67,7 +66,11 @@ def validar_documento(
 
 
 def identificar_documento(valor: str | int) -> TipoDocumento:
-    """Identifica o tipo de documento pelo comprimento (apenas dígitos).
+    """Identifica o tipo de documento pelo comprimento alfanumérico.
+
+    CNPJ alfanumérico (RFB) preserva letras A-Z nas 12 primeiras posições, então
+    a contagem usa :func:`cnpj.normalizar_cnpj` (mantém A-Z) em vez de remover
+    tudo que não é dígito.
 
     Raises:
         DocumentoNaoIdentificado: Se o comprimento for ambíguo ou não mapeado.
@@ -78,7 +81,7 @@ def identificar_documento(valor: str | int) -> TipoDocumento:
     if _PLACA_ANTIGA.fullmatch(n) or _PLACA_MERCOSUL.fullmatch(n):
         return "PLACA"
 
-    s = normalizar(valor)
+    s = cnpj.normalizar_cnpj(valor)
     tamanho = len(s)
 
     candidatos = _TAMANHO_PARA_TIPOS.get(tamanho, [])

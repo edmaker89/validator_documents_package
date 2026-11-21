@@ -77,6 +77,7 @@ Transformação do pacote original `validator_docs` (apenas CPF/CNPJ, sem tipage
 | **Testes de geração** | `TestGerar` (8 testes) + `TestModelGerar` (8 testes) validando que cada documento gerado passa na validação e formatação. |
 | **Cobertura final** | **95.6%** (acima do mínimo 90%). |
 | **Placa Mercosul** | Recebe com/sem hífen, normaliza (remove não-alfanumérico), valida regex, formata **sem hífen** (`ABC1D23`). |
+
 ---
 
 ## Explicação: Título Eleitoral SP/MG (Gap #1)
@@ -97,7 +98,7 @@ A "exceção SP/MG" refere-se a uma prática legada onde, no cálculo do 1º DV 
 
 1. **CLI**: `validator-documents validar --tipo CPF "123.456.789-09"`
 2. ~~Método `.gerar()` nos modelos Pydantic (ex.: `CPF.gerar()`).~~ ✅ **Feito** — todos os 7 modelos expõem `cls.gerar()`.
-3. **Suporte a CNPJ alfanumérico** (nova formatação RFB).
+3. ~~**Suporte a CNPJ alfanumérico** (nova formatação RFB).~~ ✅ **Feito** — IN RFB nº 2.229/2024 implementada (validação, formatação, modelo Pydantic, identificação automática).
 4. **Documentação Sphinx** + publicação no ReadTheDocs.
 5. **Benchmarks** de performance vs `validate-docbr` / `cpf-cnpj-validator`.
 6. **Schema JSON** dos modelos para integração com outros sistemas.

@@ -50,6 +50,7 @@ from validator_documents import (
 # Validação
 validar_cpf("775.488.241-81")  # True
 validar_cnpj("67.646.869/6391-55")  # True
+validar_cnpj("12.ABC.345/01DE-35")  # True (CNPJ alfanumérico RFB)
 validar_pis("435.20735.46-7")  # True
 validar_titulo_eleitoral("7634 6850 1392")  # True
 validar_cnh("636 778 226 35")  # True
@@ -156,6 +157,7 @@ from validator_documents import DocumentoInvalido, DocumentoNaoIdentificado
 |-----------|---------|-----|----------------------|
 | CPF       | 11      | Sim | `XXX.XXX.XXX-XX`     |
 | CNPJ      | 14      | Sim | `XX.XXX.XXX/XXXX-XX` |
+| CNPJ (alfanumérico) | 14 alfanum. | Sim | `XX.XXX.XXX/XXXX-XX` |
 | PIS       | 11      | Sim | `XXX.XXXXX.XX-X`     |
 | Título Eleitoral | 12 | Sim | `XXXX XXXX XXXX`    |
 | CNH       | 11      | Sim | `XXX XXX XXX XX`     |
@@ -167,6 +169,7 @@ from validator_documents import DocumentoInvalido, DocumentoNaoIdentificado
 - **Título Eleitoral**: segue a Resolução TSE 23.659/2021 (sem exceção SP/MG onde resto 0 vira 1). Se seu caso de uso exigir a exceção legada, abra uma issue.
 - **Placa Mercosul**: formatada sem hífen (`ABC1D23`), conforme padrão oficial.
 - **Dígitos repetidos** (ex.: `111.111.111-11`) são rejeitados para CPF, CNPJ, PIS e CNH.
+- **CNPJ alfanumérico** (IN RFB nº 2.229/2024): suporta letras A-Z nas 12 primeiras posições; os dois dígitos verificadores permanecem numéricos; o CNPJ numérico tradicional continua válido como subconjunto.
 
 ## Desenvolvimento
 
