@@ -4,7 +4,7 @@ Cada modelo valida o documento na construção e expõe ``.valor`` (somente díg
 e ``.formatado`` (com máscara padrão).
 """
 
-from typing import Self
+from typing_extensions import Self
 
 from pydantic import BaseModel, ConfigDict, field_validator
 
